@@ -1,0 +1,33 @@
+{
+  "name": "cryptoverse-blog",
+  "version": "1.0.0",
+  "description": "Crypto blog deployed on heroku.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hokage-216/cryptoverse-blog.git"
+  },
+  "author": "LeVente Berry Jr.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hokage-216/cryptoverse-blog/issues"
+  },
+  "homepage": "https://github.com/hokage-216/cryptoverse-blog#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
+    "express-session-sequelize": "^2.3.0",
+    "mysql2": "^3.9.2",
+    "nodemon": "^3.1.0",
+    "sequelize": "^6.37.1"
+  }
+}
