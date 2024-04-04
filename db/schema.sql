@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS cryptoverse;
+CREATE DATABASE cryptoverse;
