@@ -1,0 +1,33 @@
+<div class="container-fluid justify-content-center d-flex flex-column min-vh-100 align-items-center">
+  <h1 class="text-center mt-3">Signup</h1>
+  <div class="col-lg-6 d-flex flex-column container-fluid justify-content-center">
+    <form class="border border-2 rounded-2 d-flex flex-column p-4 mt-3 mb-4 needs-validation" id="register-form" novalidate>
+
+        <div class="form-floating mb-3 col">
+            <input class="form-control" type="text" id="username-signup" required/>
+            <label class="form-label" for="username-signup">Username:</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Must be minimum 8 charachters.</div>
+        </div>
+        
+        <div class="form-floating mb-3 col">
+            <input class="form-control" type="text" id="email-signup" required/>
+            <label class="form-label" for="email-signup">E-Mail:</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Please enter valid email.</div>
+        </div>
+
+        <div class="form-floating mb-3 col">
+            <input class="form-control" type="password" id="password-signup" required/>
+            <label class="form-label" for="password-signup">Password:</label>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Must be minimum 8 charachters.</div>
+        </div>
+      
+        <div class="mt-3 col mx-auto">
+            <button class="btn btn-primary" type="submit" id="submit">Submit</button>
+        </div>
+
+    </form>
+  </div>
+</div>
