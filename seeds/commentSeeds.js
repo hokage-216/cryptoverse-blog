@@ -13,6 +13,6 @@ const commentData = [
   },
 ];
 
-const seedComments = async () => Comment.bulkCreate(commentData);
+const seedComments = async () => await Comment.bulkCreate(commentData);
 
 module.exports = seedComments;

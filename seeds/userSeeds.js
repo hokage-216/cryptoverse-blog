@@ -13,7 +13,7 @@ const userData = [
   },
 ];
 
-const seedUsers = async () => User.bulkCreate(userData, {
+const seedUsers = () => User.bulkCreate(userData, {
   individualHooks: true,
 });
 
