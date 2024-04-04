@@ -13,6 +13,6 @@ const blogpostData = [
   },
 ];
 
-const seedBlogPosts = () => BlogPost.bulkCreate(blogpostData);
+const seedBlogPosts = async () => BlogPost.bulkCreate(blogpostData);
 
 module.exports = seedBlogPosts;
