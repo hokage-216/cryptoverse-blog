@@ -19,16 +19,7 @@ BlogPost.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            references: {
-                model: "user",
-                key: "username"
-            }
-        },
-        userID: {
+        user_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: true,
@@ -40,7 +31,7 @@ BlogPost.init(
     },
     {
         sequelize,
-        timestamps: false,
+        timestamps: true,
         freezeTableName: true,
         underscored: true,
         modelName: 'blogpost',
