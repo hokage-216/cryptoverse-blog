@@ -8,4 +8,20 @@ router.get('/', (req, res) => {
       }
 });
 
+router.get('/dashboard', (req, res) => {
+  try {
+    res.render('dashboard', {logged_in: true, dashboard: true});
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.get('/logout', (req, res) => {
+  try {
+    res.render('home', {logged_out: true});
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
