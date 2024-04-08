@@ -9,20 +9,22 @@ const signupFormHandler = async (event) => {
   
     if (email && password && username) {
       // Send the e-mail, password, and username to the server
-      const response = await fetch('/login', {
+      const response = await fetch('/signup', {
         method: 'POST',
-        body: JSON.stringify({ email, password, username }),
+        body: JSON.stringify({ email: email, password: password, username: username }),
         headers: { 'Content-Type': 'application/json' },
       });
   
       if (response.ok) {
-        document.location.replace('/');
+        console.log(response.user);
+        // document.location.replace('/');
       } else {
-        alert('Failed to log in');
+        const errorData = await response.json();
+        alert(errorData.message || 'Failed to sign up');
       }
     }
   };
   
   document
-    .querySelector('.login-form')
+    .querySelector('#signup-form')
     .addEventListener('submit', signupFormHandler);
