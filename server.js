@@ -15,7 +15,7 @@ const hbs = exphbs.create({});
 const sess = {
   secret: 'secret secret',
   cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // expires after 1 day
+    maxAge: 300000, // expires after 5 mins
   },
   resave: false,
   saveUninitialized: true,

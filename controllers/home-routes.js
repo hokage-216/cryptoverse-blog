@@ -8,6 +8,7 @@ router.get('/', withAuth, async (req, res) => {
       logged_in: req.session.logged_in, 
       home: true
     });
+    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -19,6 +20,7 @@ router.get('/home', async (req, res) => {
       logged_in: !!req.session.logged_in, 
       home: true 
     });
+
   } catch (error) {
     res.status(500).json(error);
   }
@@ -29,6 +31,7 @@ router.get('/home', async (req, res) => {
 router.get('/signup', async (req, res) => {
   try {
     res.render('signup', {logged_out: true, signup: true});
+    
   } catch (error) {
     res.status(500).json(error);
   }
@@ -47,7 +50,7 @@ router.post('/signup', async (req, res) => {
       console.log("Logged in:", req.session.logged_in);
     });
 
-    res.json({ user: userData, message: 'You are now signed up! Welcome!' });
+    res.redirect('/');
   } catch (error) {
     console.error("Signup Error:", error);
     res.status(500).json({ message: 'Internal server error', error: error.toString() });
@@ -87,6 +90,8 @@ router.post('/login', async (req, res) => {
       console.log(req.session);
       console.log("Logged in:", req.session.logged_in);
     });
+
+    res.status(200).json({userData});
 
   } catch (error) {
     res.status(500).json(error);
