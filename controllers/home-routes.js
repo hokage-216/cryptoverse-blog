@@ -36,7 +36,6 @@ router.get('/home', async (req, res) => {
 router.get('/signup', async (req, res) => {
   try {
     res.render('signup', {logged_out: true, signup: true});
-    
   } catch (error) {
     res.status(500).json(error);
   }
@@ -52,10 +51,9 @@ router.post('/signup', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
       console.log(req.session);
-      console.log("Logged in:", req.session.logged_in);
     });
 
-    res.status(200);
+    res.status(200).json({message: 'Sign Up Successful!'});
 
   } catch (error) {
     console.error("Signup Error:", error);

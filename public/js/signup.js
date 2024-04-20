@@ -17,6 +17,7 @@ const signupFormHandler = async (event) => {
   
       if (response.ok) {
         console.log(response.user);
+        alert('Sign up successful!');
         document.location.replace('/');
       } else {
         const errorData = await response.json();
@@ -25,6 +26,4 @@ const signupFormHandler = async (event) => {
     }
   };
   
-  document
-    .querySelector('#signup-form')
-    .addEventListener('submit', signupFormHandler);
+  document.querySelector('#signup-form').addEventListener('submit', signupFormHandler);
