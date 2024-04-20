@@ -5,10 +5,9 @@ const withAuth = require('../utils/auth');
 router.get('/', withAuth, async (req, res) => {
   try {
     res.render('dashboard', {
-      logged_in: req.session.logged_in, 
-      home: true
+      logged_in: req.session.logged_in
     });
-    
+
   } catch (err) {
     res.status(500).json(err);
   }
@@ -16,11 +15,17 @@ router.get('/', withAuth, async (req, res) => {
 
 router.get('/home', async (req, res) => {
   try {
-    res.render('home', {
-      logged_in: !!req.session.logged_in, 
-      home: true 
-    });
-
+    if (req.session.logged_in) {
+      res.render('dashboard', {
+        logged_in: true,
+        dashboard: true
+      });
+    } else {
+      res.render('home', {
+        logged_in: false,
+        home: true
+      });
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -50,7 +55,8 @@ router.post('/signup', async (req, res) => {
       console.log("Logged in:", req.session.logged_in);
     });
 
-    res.redirect('/');
+    res.status(200);
+
   } catch (error) {
     console.error("Signup Error:", error);
     res.status(500).json({ message: 'Internal server error', error: error.toString() });
