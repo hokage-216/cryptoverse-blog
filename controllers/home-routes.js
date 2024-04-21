@@ -1,31 +1,36 @@
 const router = require('express').Router();
-const { User, BlogPost, Comment } = require('../models');
+const { User } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
     res.render('dashboard', {
-      logged_in: req.session.logged_in
+      logged_in: true,
+      dashboard: true
     });
-
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
 router.get('/home', async (req, res) => {
+  console.log('Printing session info: ', req.session);
   try {
-    if (req.session.logged_in) {
-      res.render('dashboard', {
-        logged_in: true,
-        dashboard: true
-      });
-    } else {
-      res.render('home', {
-        logged_in: false,
-        home: true
-      });
-    }
+    // if (req.session.logged_in) {
+    //   console.log('Logged in');
+    //   res.render('dashboard', {
+    //     dashboard: true,
+    //     logged_in: true
+    //   });
+    // } else {
+    //   console.log('Logged out');
+    //   res.render('home', {
+    //     logged_in: false,
+    //     home: true
+    //   });
+    // }
+    res.render('dashboard', {dashboard: true, logged_in: true,});
+    // // res.status(200).json({message: 'You are logged in!'});
   } catch (error) {
     res.status(500).json(error);
   }
@@ -92,7 +97,7 @@ router.post('/login', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
       console.log(req.session);
-      console.log("Logged in:", req.session.logged_in);
+      // res,redirect('/');
     });
 
     res.status(200).json({userData});
