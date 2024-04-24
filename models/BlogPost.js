@@ -15,7 +15,7 @@ BlogPost.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        textbox: {
+        content: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
