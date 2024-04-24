@@ -1,15 +1,24 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, BlogPost } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
   try {
-    res.render('dashboard', {
-      logged_in: req.session.logged_in,
-      dashboard: true
+    //Grab and display feed data for all users posts
+    const postData = await BlogPost.findAll({
+      include: [User]
     });
-  } catch (err) {
-    res.status(500).json(err);
+
+    // map posts data
+    const posts = postData.map((post) => post.get({ plain: true }));
+
+    res.render('home', {
+      posts,
+      logged_in: req.session.logged_in,
+      home: true
+    });
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
