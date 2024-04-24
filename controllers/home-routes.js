@@ -5,7 +5,7 @@ const withAuth = require('../utils/auth');
 router.get('/', withAuth, async (req, res) => {
   try {
     res.render('dashboard', {
-      logged_in: true,
+      logged_in: req.session.logged_in,
       dashboard: true
     });
   } catch (err) {
@@ -16,21 +16,22 @@ router.get('/', withAuth, async (req, res) => {
 router.get('/home', async (req, res) => {
   console.log('Printing session info: ', req.session);
   try {
-    // if (req.session.logged_in) {
-    //   console.log('Logged in');
-    //   res.render('dashboard', {
-    //     dashboard: true,
-    //     logged_in: true
-    //   });
-    // } else {
-    //   console.log('Logged out');
-    //   res.render('home', {
-    //     logged_in: false,
-    //     home: true
-    //   });
-    // }
-    res.render('dashboard', {dashboard: true, logged_in: true,});
-    // // res.status(200).json({message: 'You are logged in!'});
+    console.log('Attempting Login')
+    if (!req.session.logged_in) {
+      console.log('Logged out');
+      res.render('home', {
+        logged_in: req.session.logged_in,
+        home: true
+      });
+    } else {
+      console.log('Logged in');
+      res.render('dashboard', {
+        dashboard: true,
+        logged_in: req.session.logged_in
+      });
+    }
+    // res.render('dashboard', {dashboard: true, logged_in: true,});
+    // res.status(200).json({message: 'You are logged in!'});
   } catch (error) {
     res.status(500).json(error);
   }
@@ -40,29 +41,9 @@ router.get('/home', async (req, res) => {
 
 router.get('/signup', async (req, res) => {
   try {
-    res.render('signup', {logged_out: true, signup: true});
+    res.render('signup', {logged_in: req.session.logged_in, signup: true});
   } catch (error) {
     res.status(500).json(error);
-  }
-});
-
-router.post('/signup', async (req, res) => {
-  try {
-    const { email, password, username } = req.body;
-    // Assuming User.create() correctly handles password hashing etc.
-    const userData = await User.create({ email, password, username });
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-      console.log(req.session);
-    });
-
-    res.status(200).json({message: 'Sign Up Successful!'});
-
-  } catch (error) {
-    console.error("Signup Error:", error);
-    res.status(500).json({ message: 'Internal server error', error: error.toString() });
   }
 });
 
@@ -70,55 +51,9 @@ router.post('/signup', async (req, res) => {
 
 router.get('/login', async (req, res) => {
   try {
-    res.render('login', {logged_in: false, login: true});
+    res.render('login', {login: true});
   } catch (error) {
     res.status(500).json(error);
-  }
-});
-
-router.post('/login', async (req, res) => {
-  try {
-
-    const userData = await User.findOne({ where: { email: req.body.email } });
-
-    if (!userData) {
-      res.status(400).json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
-
-    const validPassword = await userData.checkPassword(req.body.password);
-
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect email or password, please try again' });
-      return;
-    }
-
-    req.session.save(() => {
-      req.session.user_id = userData.id;
-      req.session.logged_in = true;
-      console.log(req.session);
-      // res,redirect('/');
-    });
-
-    res.status(200).json({userData});
-
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-// LOGOUT ROUTE
-
-router.post('/logout', (req, res) => {
-  if (req.session.logged_in) {
-    req.session.destroy(err => {
-      if (err) {
-        return res.status(500).json({ message: 'Internal server error', error: err.toString() });
-      }
-      res.redirect('/home');
-    });
-  } else {
-    res.redirect('/home');
   }
 });
 

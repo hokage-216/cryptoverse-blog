@@ -1,25 +1,27 @@
 const withAuth = require('../../utils/auth');
 const {BlogPost, Comment} = require('../../models');
-
 const router = require('express').Router();
 
-router.get('/newpost', withAuth, async (req, res) => {
+// New Post Routes
+router.get('/newPost', withAuth, async (req, res) => {
     try {
-        res.render('newpost', {newpost: true});
+        res.render('newPost', {newpost: true});
       } catch (err) {
         res.status(500).json(err);
       }
 });
 
-router.post('/newpost', withAuth, async (req, res) => {
+// Update Post Routes
+router.post('/updatePost', withAuth, async (req, res) => {
   try {
 
-      res.render('newpost', {newpost: true});
+      res.render('updatePost', {newpost: true});
     } catch (err) {
       res.status(500).json(err);
     }
 });
 
+// Edit Post Routes
 
 
 module.exports = router;
