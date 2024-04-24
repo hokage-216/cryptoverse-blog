@@ -25,22 +25,20 @@ router.get('/', withAuth, async (req, res) => {
 router.get('/home', async (req, res) => {
   console.log('Printing session info: ', req.session);
   try {
-    console.log('Attempting Login')
+    console.log('Attempting Login Display');
     if (!req.session.logged_in) {
-      console.log('Logged out');
+      console.log('No User Login');
       res.render('home', {
         logged_in: req.session.logged_in,
         home: true
       });
     } else {
-      console.log('Logged in');
-      res.render('dashboard', {
+      console.log('User Logged in');
+      res.render('home', {
         dashboard: true,
         logged_in: req.session.logged_in
       });
     }
-    // res.render('dashboard', {dashboard: true, logged_in: true,});
-    // res.status(200).json({message: 'You are logged in!'});
   } catch (error) {
     res.status(500).json(error);
   }

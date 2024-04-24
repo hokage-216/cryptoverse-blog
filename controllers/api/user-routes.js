@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const {User} = require('../../models');
+const withAuth = require('../../utils/auth');
 
 router.get('/', (req, res) => {
     try {
@@ -9,7 +10,7 @@ router.get('/', (req, res) => {
       }
 });
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', withAuth, (req, res) => {
   try {
     res.render('dashboard', {logged_in: req.session.logged_in, dashboard: true});
   } catch (error) {
@@ -41,9 +42,9 @@ router.post('/login', async (req, res) => {
       req.session.username = userData.username;
       req.session.logged_in = true;
       console.log(req.session);
-    });
 
-    res.status(200).json({userData});
+      res.status(200).json({userData, message: 'Sign Up Successful!' });
+    });
 
   } catch (error) {
     res.status(500).json(error);
@@ -63,9 +64,9 @@ router.post('/signup', async (req, res) => {
       req.session.username = userData.username;
       req.session.logged_in = true;
       console.log(req.session);
-    });
 
-    res.status(200).json({message: 'Sign Up Successful!'});
+      res.status(200).json({ message: 'Sign Up Successful!' });
+    });
 
   } catch (error) {
     console.error("Signup Error:", error);
@@ -75,12 +76,12 @@ router.post('/signup', async (req, res) => {
 
 // Logout Route
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(err => {
       if (err) {
         return res.status(500).json({ message: 'Internal server error', error: err.toString() });
-      }
+      } 
       res.redirect('/home');
     });
   } else {
