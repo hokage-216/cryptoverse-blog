@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const {User} = require('../../models');
+const {User, BlogPost} = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.get('/', (req, res) => {
+router.get('/', withAuth, (req, res) => {
     try {
         res.render('login');
       } catch (err) {
@@ -10,10 +10,29 @@ router.get('/', (req, res) => {
       }
 });
 
-router.get('/dashboard', withAuth, (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
-    res.render('dashboard', {logged_in: req.session.logged_in, dashboard: true});
+    //Grab and display all of the users post data
+    const postData = await BlogPost.findAll({
+      include: [User],
+      where: {user_id: req.session.user_id}
+    });
+
+    // Log each post's created_at date to verify it's being retrieved correctly
+    postData.forEach(post => {
+      console.log(post.created_at);  
+    });
+
+    // map posts data
+    const posts = postData.map((post) => post.get({ plain: true }));
+    console.log(posts);
+
+    res.render('dashboard', {
+      posts,
+      logged_in: req.session.logged_in, 
+      dashboard: true});
   } catch (error) {
+    console.error("Error fetching posts:", error);
     res.status(500).json(error);
   }
 });

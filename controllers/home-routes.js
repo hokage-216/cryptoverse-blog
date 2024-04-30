@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, BlogPost } = require('../models');
+const { User, BlogPost, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', withAuth, async (req, res) => {
@@ -24,17 +24,28 @@ router.get('/', withAuth, async (req, res) => {
 
 router.get('/home', async (req, res) => {
   console.log('Printing session info: ', req.session);
+
+  //Grab and display feed data for all users posts
+  const postData = await BlogPost.findAll({
+    include: [User, Comment]
+  });
+
+  // map posts data
+  const posts = postData.map((post) => post.get({ plain: true }));
+
   try {
     console.log('Attempting Login Display');
     if (!req.session.logged_in) {
       console.log('No User Login');
       res.render('home', {
+        posts,
         logged_in: req.session.logged_in,
         home: true
       });
     } else {
       console.log('User Logged in');
       res.render('home', {
+        posts,
         dashboard: true,
         logged_in: req.session.logged_in
       });
