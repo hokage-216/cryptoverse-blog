@@ -3,7 +3,7 @@ const {User, BlogPost, Comment} = require('../../models');
 const router = require('express').Router();
 
 // New Post Routes
-router.get('/newPost', withAuth, async (req, res) => {
+router.get('/new-post', withAuth, async (req, res) => {
     try {
         res.render('newPost', {newpost: true});
       } catch (err) {
@@ -11,7 +11,7 @@ router.get('/newPost', withAuth, async (req, res) => {
       }
 });
 
-router.post('/newPost', withAuth, async (req, res) => {
+router.post('/new-post', withAuth, async (req, res) => {
   try {
       res.render('newPost', {newpost: true});
     } catch (err) {
@@ -20,17 +20,17 @@ router.post('/newPost', withAuth, async (req, res) => {
 });
 
 // Update Post Routes
-router.post('/updatePost', withAuth, async (req, res) => {
+router.post('/update-post', withAuth, async (req, res) => {
   try {
 
-      res.render('updatePost', {newpost: true});
+      res.render('updat-post', {newpost: true});
     } catch (err) {
       res.status(500).json(err);
     }
 });
 
 // Edit Post Routes
-router.get('/editPost/:id', withAuth, async (req, res) => {
+router.get('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const postData = await BlogPost.findByPk(req.params.id, {
       include: [
@@ -55,7 +55,7 @@ router.get('/editPost/:id', withAuth, async (req, res) => {
     }
 
     const post = postData.get({ plain: true });
-    res.render('editPost', {
+    res.render('edit-post', {
       post,
       logged_in: req.session.logged_in
     });
@@ -65,7 +65,7 @@ router.get('/editPost/:id', withAuth, async (req, res) => {
   }
 });
 
-router.post('/editPost/:id', withAuth, async (req, res) => {
+router.post('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const updateResult = await BlogPost.update({
       title: req.body.title,
