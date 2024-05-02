@@ -1,24 +1,41 @@
 <div class="d-flex flex-column align-items-center mt-4">
     <h3 class="text-center ">Your Dashboard</h3>
-
-    {{#each posts as |post|}}
-    <div class="mt-4 col-md-6">
-        <div class="card">
-            <div class="card-header d-flex justify-content-end">
-                <div>Posted by you on {{format_date post.createdAt}}</div>
+    {{#if new-post}}
+        <div class="mt-4 col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-start">
+                    <div>New Post</div>
+                </div>
+                <form action="/api/blog/new-post" method="post" class="card-body d-flex flex-column">
+                    <input type="text" class="card-title" placeholder="Title">
+                    <textarea type="text" class="card-text" placeholder="Post Content" rows="6" cols="75"></textarea>
+                    <div class="m-2 d-flex justify-content-end">
+                        <input type="submit" class="btn btn-primary m-1" value="Submit">
+                    </div>
+                </form>
             </div>
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title">{{post.title}}</h5>
-                <p class="card-text">{{post.content}}</p>
-                <div class="m-2 d-flex justify-content-end">
-                    <a href="#" class="btn btn-primary m-1">Edit Post</a>
-                    <a href="#" class="btn btn-primary m-1">Comment</a>
+        </div>
+    {{else}}
+        {{#each posts as |post|}}
+        <div class="mt-4 col-md-6">
+            <div class="card">
+                <div class="card-header d-flex justify-content-end">
+                    <div>Posted by you on {{format_date post.createdAt}}</div>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{post.title}}</h5>
+                    <p class="card-text">{{post.content}}</p>
+                    <div class="m-2 d-flex justify-content-end">
+                        <a href="#" class="btn btn-primary m-1">Edit Post</a>
+                        <a href="#" class="btn btn-primary m-1">Comment</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {{/each}}
+        {{/each}}
 
-    <a href="api/blog/new-post" class="btn btn-primary m-4">+ New Post</a>
+        <a href="api/blog/new-post" class="btn btn-primary m-4">+ New Post</a>
+    {{/if}}
+
 </div>
 
