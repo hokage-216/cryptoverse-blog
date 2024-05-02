@@ -1,20 +1,7 @@
 <div class="d-flex flex-column align-items-center mt-4">
     <h3 class="text-center ">Your Dashboard</h3>
-    {{#if new-post}}
-        <div class="mt-4 col-md-6">
-            <div class="card">
-                <div class="card-header d-flex justify-content-start">
-                    <div>New Post</div>
-                </div>
-                <form action="/api/blog/new-post" method="post" class="card-body d-flex flex-column">
-                    <input type="text" class="card-title" placeholder="Title">
-                    <textarea type="text" class="card-text" placeholder="Post Content" rows="6" cols="75"></textarea>
-                    <div class="m-2 d-flex justify-content-end">
-                        <input type="submit" class="btn btn-primary m-1" value="Submit">
-                    </div>
-                </form>
-            </div>
-        </div>
+    {{#if newPost}}
+        {{>new-post}}
     {{else}}
         {{#each posts as |post|}}
         <div class="mt-4 col-md-6">
@@ -34,8 +21,7 @@
         </div>
         {{/each}}
 
-        <a href="api/blog/new-post" class="btn btn-primary m-4">+ New Post</a>
+        <a href="/api/blog/new-post" class="btn btn-primary m-4">+ New Post</a>
     {{/if}}
 
 </div>
-

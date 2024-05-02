@@ -5,7 +5,10 @@ const router = require('express').Router();
 // New Post Routes
 router.get('/new-post', withAuth, async (req, res) => {
     try {
-        res.render('newPost', {newpost: true});
+        res.render('dashboard', {
+          logged_in: req.session.logged_in, 
+          newPost: true
+        });
       } catch (err) {
         res.status(500).json(err);
       }
@@ -13,7 +16,10 @@ router.get('/new-post', withAuth, async (req, res) => {
 
 router.post('/new-post', withAuth, async (req, res) => {
   try {
-      res.render('newPost', {newpost: true});
+      const { title , content } = req.body;
+      const postData = await BlogPost.create({ title, content, user_id: req.session.user_id });
+      console.log(postData);
+      res.redirect('/api/user/dashboard');
     } catch (err) {
       res.status(500).json(err);
     }
@@ -23,7 +29,7 @@ router.post('/new-post', withAuth, async (req, res) => {
 router.post('/update-post', withAuth, async (req, res) => {
   try {
 
-      res.render('updat-post', {newpost: true});
+      res.render('updat-post', {logged_in: req.session.logged_in, updatePost: true});
     } catch (err) {
       res.status(500).json(err);
     }
