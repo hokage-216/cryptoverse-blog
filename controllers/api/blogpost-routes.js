@@ -7,7 +7,8 @@ router.get('/new-post', withAuth, async (req, res) => {
     try {
         res.render('dashboard', {
           logged_in: req.session.logged_in, 
-          newPost: true
+          newPost: true,
+          dashboard: true
         });
       } catch (err) {
         res.status(500).json(err);
@@ -25,11 +26,36 @@ router.post('/new-post', withAuth, async (req, res) => {
     }
 });
 
+// Comment Post Routes
+
+router.get('/add-comment/:id', withAuth, async (req, res) => {
+  try {
+    const postData = await BlogPost.findByPk(req.params.id);
+    console.log(postData);
+    res.render('', {
+      logged_in: req.session.logged_in,
+      selected: true,
+    })
+  } catch (error) {
+    res.status(500).json(err);
+  }
+});
+
 // Update Post Routes
+
+router.get('/update-post', withAuth, async (req, res) => {
+  try {
+      const postData = await BlogPost.findByPk(req.params.id);
+      res.render('update-post', {logged_in: req.session.logged_in, updatePost: true});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+});
+
 router.post('/update-post', withAuth, async (req, res) => {
   try {
 
-      res.render('updat-post', {logged_in: req.session.logged_in, updatePost: true});
+      res.render('update-post', {logged_in: req.session.logged_in, updatePost: true});
     } catch (err) {
       res.status(500).json(err);
     }
@@ -38,22 +64,7 @@ router.post('/update-post', withAuth, async (req, res) => {
 // Edit Post Routes
 router.get('/edit-post/:id', withAuth, async (req, res) => {
   try {
-    const postData = await BlogPost.findByPk(req.params.id, {
-      include: [
-        {
-          model: Comment,
-          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-          include: {
-            model: User,
-            attributes: ['username']
-          }
-        },
-        {
-          model: User,
-          attributes: ['username']
-        }
-      ]
-    });
+    const postData = await BlogPost.findByPk(req.params.id);
 
     if (!postData) {
       res.status(404).json({ message: 'No post found with this id!' });

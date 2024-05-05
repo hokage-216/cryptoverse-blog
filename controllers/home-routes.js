@@ -6,7 +6,16 @@ router.get('/', withAuth, async (req, res) => {
   try {
     //Grab and display feed data for all users posts
     const postData = await BlogPost.findAll({
-      include: [User]
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        }
+      ]
     });
 
     // map posts data
@@ -27,7 +36,16 @@ router.get('/home', async (req, res) => {
 
   //Grab and display feed data for all users posts
   const postData = await BlogPost.findAll({
-    include: [User, Comment]
+    include: [
+      {
+        model: Comment,
+        attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
+        include: {
+          model: User,
+          attributes: ['username']
+        }
+      }
+    ]
   });
 
   // map posts data
@@ -46,7 +64,7 @@ router.get('/home', async (req, res) => {
       console.log('User Logged in');
       res.render('home', {
         posts,
-        dashboard: true,
+        home: true,
         logged_in: req.session.logged_in
       });
     }
