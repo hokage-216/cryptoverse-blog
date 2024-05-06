@@ -43,10 +43,15 @@ router.get('/add-comment/:id', withAuth, async (req, res) => {
 
 // Update Post Routes
 
-router.get('/update-post', withAuth, async (req, res) => {
+router.get('/update-post/:id', withAuth, async (req, res) => {
   try {
       const postData = await BlogPost.findByPk(req.params.id);
-      res.render('update-post', {logged_in: req.session.logged_in, updatePost: true});
+      const post = postData.get({ plain: true });
+      res.render('dashboard', {
+        post,
+        dashboard: true,
+        logged_in: req.session.logged_in, 
+        selected: true});
     } catch (err) {
       res.status(500).json(err);
     }

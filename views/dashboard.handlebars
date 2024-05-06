@@ -2,16 +2,20 @@
     <h3 class="text-center ">Your Dashboard</h3>
 
     {{#if selected}}
-        <div class="card">
+        <div class="card mt-4 col-md-6">
             <div class="card-header">Edit Post</div>
-            <div class="card-body">
-                <input type="text" class="form-control" value="{{post.title}}" />
-                <textarea class="form-control mt-2">{{post.content}}</textarea>
-                <button class="btn btn-success mt-2">Save Changes</button>
-            </div>
+            <form class="card-body d-flex flex-column justify-content-start">
+                <label for="update-post-title" class="mb-1 mt-1">Title:</label>
+                <input type="text" class="form-control mt-1" value="{{post.title}}" id="update-post-title"/>
+                <label for="update-post-content" class="mb-1 mt-1">Content:</label>
+                <textarea class="form-control mt-1" id="update-post-content">{{post.content}}</textarea>
+                <div class="d-flex flex-column align-items-center mt-2">
+                    <button type="submit" class="btn btn-success mt-2">Save Changes</button>
+                </div>
+            </form>
         </div>
 
-        <a href="/api/user/dashboard" class="btn btn-secondary m-4">Back to Posts</a>
+        <a href="/api/user/dashboard" class="btn btn-secondary m-4">Back to Dashboard</a>
     {{else}}
 
         {{#if newPost}}
@@ -20,7 +24,7 @@
 
         {{#each posts as |post|}}
             
-                <a href="/api/blog/edit-post/{{post.id}}" class="mt-4 col-md-6 text-decoration-none text-body">
+                <a href="/api/blog/update-post/{{post.id}}" class="mt-4 col-md-6 text-decoration-none text-body">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h5 class="card-title">{{post.title}}</h5>
