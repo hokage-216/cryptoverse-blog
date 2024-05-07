@@ -41,8 +41,9 @@ router.get('/add-comment/:id', withAuth, async (req, res) => {
   }
 });
 
-// Update Post Routes
+// UPDATING OR EDITING THE BLOGPOST SECTIONS, WHETHER ON THE HOME PAGE OR DASHBOARD PAGE
 
+// Update Post Routes for the dashboard
 router.get('/update-post/:id', withAuth, async (req, res) => {
   try {
       const postData = await BlogPost.findByPk(req.params.id);
@@ -51,34 +52,21 @@ router.get('/update-post/:id', withAuth, async (req, res) => {
         post,
         dashboard: true,
         logged_in: req.session.logged_in, 
-        selected: true});
+        updatePost: true});
     } catch (err) {
       res.status(500).json(err);
     }
 });
 
-router.post('/update-post', withAuth, async (req, res) => {
-  try {
-
-      res.render('update-post', {logged_in: req.session.logged_in, updatePost: true});
-    } catch (err) {
-      res.status(500).json(err);
-    }
-});
-
-// Edit Post Routes
+// Edit Post Routes on the home page 
 router.get('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const postData = await BlogPost.findByPk(req.params.id);
-
-    if (!postData) {
-      res.status(404).json({ message: 'No post found with this id!' });
-      return;
-    }
-
     const post = postData.get({ plain: true });
-    res.render('edit-post', {
+    res.render('home', {
       post,
+      home: true,
+      editPost: true,
       logged_in: req.session.logged_in
     });
   } catch (err) {
@@ -87,6 +75,7 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
   }
 });
 
+// Update Post Route for both the home and dashboard pages
 router.post('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const updateResult = await BlogPost.update({
@@ -99,7 +88,7 @@ router.post('/edit-post/:id', withAuth, async (req, res) => {
     });
 
     if (updateResult > 0) {
-      res.redirect('/dashboard');
+      res.redirect('/api/blog/dashboard');
     } else {
       res.status(404).json({ message: 'No post found with this id or no update made!' });
     }
