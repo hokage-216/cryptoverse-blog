@@ -1,5 +1,6 @@
 const withAuth = require('../../utils/auth');
 const {User, BlogPost, Comment} = require('../../models');
+const { Model } = require('sequelize');
 const router = require('express').Router();
 
 // New Post Routes
@@ -30,14 +31,44 @@ router.post('/new-post', withAuth, async (req, res) => {
 
 router.get('/add-comment/:id', withAuth, async (req, res) => {
   try {
-    const postData = await BlogPost.findByPk(req.params.id);
+    // obtain post data related to the clicked blog post
+    const postData = await BlogPost.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        },
+        {
+          model: Comment,
+          include: [{
+            model: User,
+            attributes: ['username']
+          }],
+          attributes: ['content', 'createdAt']
+        }
+      ],
+    });
+
+    // check if post actually exists
+    if (!postData) {
+      res.status(404).json({ message: 'No blog post found with this id' });
+      return;
+    }
+
+    //console log the post data to ensure the correct post was selected
     console.log(postData);
-    res.render('', {
+
+    //serialize the data so we can use it
+    const post = postData.get({ plain: true });
+
+    res.render('home', {
+      post,
+      home: true,
       logged_in: req.session.logged_in,
       selected: true,
     })
   } catch (error) {
-    res.status(500).json(err);
+    res.status(500).json(error);
   }
 });
 
