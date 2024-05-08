@@ -38,12 +38,8 @@ router.get('/home', async (req, res) => {
   const postData = await BlogPost.findAll({
     include: [
       {
-        model: Comment,
-        attributes: ['id', 'content', 'post_id', 'user_id', 'created_at'],
-        include: {
-          model: User,
-          attributes: ['username']
-        }
+        model: User,
+        attributes: ['username']
       }
     ]
   });
