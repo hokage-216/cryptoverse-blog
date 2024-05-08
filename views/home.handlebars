@@ -24,9 +24,10 @@
                     <div class="text-secondary">Posted by {{comment.user.username}} on {{format_date comment.createdAt}}</div>
                 </div>
                 {{/each}}
-                <form class="card-body d-flex flex-column justify-content-start">
-                    <label for="add-comment" class="mb-1 mt-1">Add Your Comment:</label>
-                    <textarea class="form-control mt-1" id="add-comment" placeholder="What would you like to say?"></textarea>
+                <form class="card-body d-flex flex-column justify-content-start" id="comment-form">
+                    <label for="comment-content" class="mb-1 mt-1">Add Your Comment:</label>
+                    <textarea class="form-control mt-1" id="comment-content" placeholder="What would you like to say?"></textarea>
+                    <input type="number" class="d-none" id="postId" value="{{post.id}}">
                     <div class="d-flex flex-column align-items-center mt-2">
                         <button type="submit" class="btn btn-success mt-2" id="add-comment">Add Comment</button>
                     </div>

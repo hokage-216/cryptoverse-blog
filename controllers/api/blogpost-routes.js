@@ -72,6 +72,20 @@ router.get('/add-comment/:id', withAuth, async (req, res) => {
   }
 });
 
+router.post('/add-comment/', withAuth, async (req, res) => {
+  try {
+      const { content, postId } = req.body;
+      const commentData = await Comment.create({ 
+        content: content, 
+        user_id: req.session.user_id, 
+        post_id: postId 
+      });
+      res.status(200).json({message: commentData});
+    } catch (error) {
+      res.status(500).json(error);
+    }
+});
+
 // UPDATING OR EDITING THE BLOGPOST SECTIONS, WHETHER ON THE HOME PAGE OR DASHBOARD PAGE
 
 // Update Post Routes for the dashboard

@@ -9,9 +9,11 @@
                 <input type="text" class="form-control mt-1" value="{{post.title}}" id="update-post-title"/>
                 <label for="update-post-content" class="mb-1 mt-1">Content:</label>
                 <textarea class="form-control mt-1" id="update-post-content">{{post.content}}</textarea>
-                <div class="d-flex flex-column align-items-center mt-2">
-                    <button type="submit" class="btn btn-success mt-2">Save Changes</button>
+                <div class="d-flex flex-row justify-content-center mt-2">
+                    <button type="submit" class="btn btn-success m-2" id="update-post">Update Post</button>
+                    <button type="submit" class="btn btn-danger m-2" id="delete-post">Delete Post</button>
                 </div>
+
             </form>
         </div>
 
