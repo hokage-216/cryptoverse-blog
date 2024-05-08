@@ -1,25 +1,26 @@
 const editPostHandler = async (event) => {
     event.preventDefault();
 
-    const newTitle = document.querySelector('#update-post-title').value.trim();
-    const newContent = document.querySelector('#update-post-content').value.trim();
+    const title = document.querySelector('#update-post-title').value.trim();
+    const content = document.querySelector('#update-post-content').value.trim();
     const postId = document.querySelector('#postId').value;
 
-    if (newTitle && newContent) {
-        const response = await fetch('/api/blog/edit-post', {
-            method: 'POST',
-            body: JSON.stringify({ title: newTitle, content: newContent, postId: postId }),
+    if (title && content && postId) {
+        const response = await fetch(`/api/blog/update-post/${postId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ title, content }),
             headers: { 'Content-Type': 'application/json' },
         });
 
         if (response.ok) {
-            console.log(response);
-            alert('Post updated successful!');
+            alert('Post updated successfully!');
             document.location.replace('/api/user/dashboard');
-          } else {
+        } else {
             const errorData = await response.json();
-            alert(errorData.message || 'Failed to create post. Please try again.');
-          }
+            alert(errorData.message || 'Failed to update post. Please try again.');
+        }
+    } else {
+        alert('Please fill all fields.');
     }
 }
 

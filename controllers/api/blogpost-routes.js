@@ -120,26 +120,46 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
 });
 
 // Update Post Route for dashboard page
-router.post('/edit-post', withAuth, async (req, res) => {
+router.put('/edit-post/:id', withAuth, async (req, res) => {
   try {
     const updateResult = await BlogPost.update({
       title: req.body.title,
       content: req.body.content,
       user_id: req.session.user_id
-    },{
+    }, {
       where: {
-        id: req.body.postId
+        id: req.params.id
       }
     });
 
-    if (updateResult > 0) {
-      res.status(200).json({message: updateResult});
+    // Check if any rows were updated
+    if (updateResult[0] > 0) {
+      res.status(200).json({ message: 'Post updated successfully!' });
     } else {
-      res.status(404).json({ message: 'No post found with this id or no update made!' });
+      res.status(404).json({ message: 'No post found with this ID or no update made.' });
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating post.' });
+  }
+});
+
+//Delete Post Route for Dashboard page
+router.delete('/delete-post/:id', withAuth, async (req, res) => {
+  try {
+    const deleteResult = await BlogPost.destroy({
+      where: { id: req.params.id }
+    });
+
+    // Check if any rows were deleted
+    if (deleteResult > 0) {
+      res.status(200).json({ message: 'Post removed successfully!' });
+    } else {
+      res.status(404).json({ message: 'No post found with this ID.' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error removing post.' });
   }
 });
 
