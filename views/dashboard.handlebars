@@ -4,16 +4,16 @@
     {{#if updatePost}}
         <div class="card mt-4 col-md-6">
             <div class="card-header">Edit Post</div>
-            <form class="card-body d-flex flex-column justify-content-start">
+            <form class="card-body d-flex flex-column justify-content-start" id="updatePost-form">
                 <label for="update-post-title" class="mb-1 mt-1">Title:</label>
                 <input type="text" class="form-control mt-1" value="{{post.title}}" id="update-post-title"/>
                 <label for="update-post-content" class="mb-1 mt-1">Content:</label>
                 <textarea class="form-control mt-1" id="update-post-content">{{post.content}}</textarea>
-                <div class="d-flex flex-row justify-content-center mt-2">
+                <input type="number" class="d-none" id="postId" value="{{post.id}}">
+                <div class="d-flex flex-row justify-content-center mt-4">
                     <button type="submit" class="btn btn-success m-2" id="update-post">Update Post</button>
-                    <button type="submit" class="btn btn-danger m-2" id="delete-post">Delete Post</button>
+                    <button type="button" class="btn btn-danger m-2" id="delete-post">Delete Post</button>
                 </div>
-
             </form>
         </div>
 

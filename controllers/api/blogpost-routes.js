@@ -1,6 +1,5 @@
 const withAuth = require('../../utils/auth');
 const {User, BlogPost, Comment} = require('../../models');
-const { Model } = require('sequelize');
 const router = require('express').Router();
 
 // New Post Routes
@@ -120,20 +119,21 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
   }
 });
 
-// Update Post Route for both the home and dashboard pages
-router.post('/edit-post/:id', withAuth, async (req, res) => {
+// Update Post Route for dashboard page
+router.post('/edit-post', withAuth, async (req, res) => {
   try {
     const updateResult = await BlogPost.update({
       title: req.body.title,
-      content: req.body.content
-    }, {
+      content: req.body.content,
+      user_id: req.session.user_id
+    },{
       where: {
-        id: req.params.id
+        id: req.body.postId
       }
     });
 
     if (updateResult > 0) {
-      res.redirect('/api/blog/dashboard');
+      res.status(200).json({message: updateResult});
     } else {
       res.status(404).json({ message: 'No post found with this id or no update made!' });
     }
