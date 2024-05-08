@@ -52,11 +52,11 @@ const setupDatabase = async () => {
         CREATE TABLE IF NOT EXISTS comment (
           id INT AUTO_INCREMENT PRIMARY KEY,
           content TEXT NOT NULL,
-          blogpost_id INT,
+          post_id INT,
           user_id INT,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-          FOREIGN KEY (blogpost_id) REFERENCES blogpost(id) ON DELETE CASCADE,
+          FOREIGN KEY (post_id) REFERENCES blogpost(id) ON DELETE CASCADE,
           FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
         )
       `);
